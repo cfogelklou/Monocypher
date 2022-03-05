@@ -5,7 +5,18 @@ on:
     # Sequence of patterns matched against refs/heads
     branches:
       - master
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
   workflow_dispatch:
+  status: {}
 jobs:
   # Build and run tests. Note that the valgrind tests crash.
   build-and-test:
