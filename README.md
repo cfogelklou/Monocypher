@@ -1,4 +1,4 @@
-[![Github Actions CI](https://github.com/cfogelklou/Monocypher/actions/workflows/ci.yml/badge.svg)](https://github.com/LoupVaillant/Monocypher/actions/workflows/ci.yml)
+[![Github Actions CI](https://github.com/cfogelklou/Monocypher/actions/workflows/ci.yml/badge.svg)](https://github.com/cfogelklou/Monocypher/actions/workflows/ci.yml)
 
 ## Monocypher (Developer Edition)
 
