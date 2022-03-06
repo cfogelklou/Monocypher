@@ -1,12 +1,8 @@
-[![TrustInSoft CI](https://ci.trust-in-soft.com/projects/LoupVaillant/Monocypher.svg?branch=master)](https://ci.trust-in-soft.com/projects/LoupVaillant/Monocypher)
+[![Github Actions CI](https://github.com/cfogelklou/Monocypher/actions/workflows/ci.yml/badge.svg)](https://github.com/LoupVaillant/Monocypher/actions/workflows/ci.yml)
 
-[![Github Actions CI](https://github.com/LoupVaillant/Monocypher/actions/workflows/ci.yml/badge.svg)](https://github.com/LoupVaillant/Monocypher/actions/workflows/ci.yml)
+## Monocypher (Developer Edition)
 
-
-Monocypher (Developer Edition)
-------------------------------
-
-_(This is the bleeding edge, not yet released version.  If you just want
+_(This is the bleeding edge, not yet released version. If you just want
 to use Monocypher, grab the [latest version][latest], or download the
 [source][] and [header][] files directly. If you want to contribute, see
 the notes at the end.)_
@@ -18,65 +14,57 @@ the notes at the end.)_
 ---
 
 Monocypher is an easy to use, easy to deploy, auditable crypto library
-written in portable C.  It approaches the size of [TweetNaCl][] and the
+written in portable C. It approaches the size of [TweetNaCl][] and the
 speed of [libsodium][].
 
 [Official site.](https://monocypher.org/)  
 [Official releases.](https://monocypher.org/download/)
 
 [libsodium]: https://libsodium.org
-[TweetNaCl]: https://tweetnacl.cr.yp.to/
+[tweetnacl]: https://tweetnacl.cr.yp.to/
 
+## Features
 
-Features
---------
-
-- [Authenticated Encryption][AEAD] with XChaCha20 and Poly1305
+- [Authenticated Encryption][aead] with XChaCha20 and Poly1305
   (RFC&nbsp;8439).
-- [Hashing][HASH] with BLAKE2b.
-- [Password Hashing][PWH] with Argon2i.
-- [Public Key Cryptography][PKC] with X25519 (key exchange).
-- [Public Key Signatures][PKS] with EdDSA (RFC 8032) and Ed25519.
-- [Steganography support][STEG] with Elligator&nbsp;2.
-- [OPRF and PAKE support][PAKE] with Elligator&nbsp;2 and scalar
+- [Hashing][hash] with BLAKE2b.
+- [Password Hashing][pwh] with Argon2i.
+- [Public Key Cryptography][pkc] with X25519 (key exchange).
+- [Public Key Signatures][pks] with EdDSA (RFC 8032) and Ed25519.
+- [Steganography support][steg] with Elligator&nbsp;2.
+- [OPRF and PAKE support][pake] with Elligator&nbsp;2 and scalar
   inversion.
 
-[AEAD]: https://monocypher.org/manual/aead
-[HASH]: https://monocypher.org/manual/hash
-[PWH]:  https://monocypher.org/manual/argon2i
-[PKC]:  https://monocypher.org/manual/key_exchange
-[PKS]:  https://monocypher.org/manual/sign
-[STEG]: https://monocypher.org/manual/advanced/elligator
-[PAKE]: https://monocypher.org/manual/advanced/x25519_inverse
+[aead]: https://monocypher.org/manual/aead
+[hash]: https://monocypher.org/manual/hash
+[pwh]: https://monocypher.org/manual/argon2i
+[pkc]: https://monocypher.org/manual/key_exchange
+[pks]: https://monocypher.org/manual/sign
+[steg]: https://monocypher.org/manual/advanced/elligator
+[pake]: https://monocypher.org/manual/advanced/x25519_inverse
 
-
-Manual
-------
+## Manual
 
 The manual can be found at https://monocypher.org/manual/, and in the
 `doc/` folder.
 
-The `doc/man/` folder contains the man pages.  You can install them in
+The `doc/man/` folder contains the man pages. You can install them in
 your system by running `make install-doc`. Official releases also have a
 `doc/html/` folder with an html version.
 
-
-Installation
-------------
+## Installation
 
 ### Option 1: grab the sources
 
 The easiest way to use Monocypher is to include `src/monocypher.h` and
-`src/monocypher.c` directly into your project.  They compile as C (since
+`src/monocypher.c` directly into your project. They compile as C (since
 C99) and C++ (since C++98).
-
 
 ### Option 2: grab the library
 
 Run `make`, then grab the `src/monocypher.h` header and either the
-`lib/libmonocypher.a` or `lib/libmonocypher.so` library.  The default
-compiler is `gcc -std=gnu99`, and the default flags are `-pedantic -Wall
--Wextra -O3 -march=native`.  If they don't work on your platform, you
+`lib/libmonocypher.a` or `lib/libmonocypher.so` library. The default
+compiler is `gcc -std=gnu99`, and the default flags are `-pedantic -Wall -Wextra -O3 -march=native`. If they don't work on your platform, you
 can change them like this:
 
     $ make CC="clang -std=c99" CFLAGS="-O2"
@@ -89,13 +77,13 @@ The following should work on most UNIX systems:
 
 This will install Monocypher in `/usr/local/` by default. Libraries
 will go to `/usr/local/lib/`, the header in `/usr/local/include/`, and
-the man pages in `/usr/local/share/man/man3`.  You can change those
+the man pages in `/usr/local/share/man/man3`. You can change those
 defaults with the `PREFIX` and `DESTDIR` variables thus:
 
     $ make install PREFIX="/opt"
 
 Once installed, you can use `pkg-config` to compile and link your
-program.  For instance, if you have a one file C project that uses
+program. For instance, if you have a one file C project that uses
 Monocypher, you can compile it thus:
 
     $ gcc -o myProgram myProgram.c        \
@@ -106,17 +94,15 @@ The `cflags` line gives the include path for monocypher.h, and the
 `libs` line provides the link path and option required to find
 `libmonocypher.a` (or `libmonocypher.so`).
 
-
-Test suite
-----------
+## Test suite
 
     $ make test
 
 It should display a nice printout of all the tests, all starting with
-"OK".  If you see "FAILURE" anywhere, something has gone very wrong
+"OK". If you see "FAILURE" anywhere, something has gone very wrong
 somewhere.
 
-*Do not* use Monocypher without running those tests at least once.
+_Do not_ use Monocypher without running those tests at least once.
 
 The same test suite can be run under Clang sanitisers and Valgrind, and
 be checked for code coverage:
@@ -124,47 +110,42 @@ be checked for code coverage:
     $ tests/test.sh
     $ tests/coverage.sh
 
-
 ### Serious auditing
 
 The code may be analysed more formally with [Frama-c][] and the
-[TIS interpreter][TIS].  To analyse the code with Frama-c, run:
+[TIS interpreter][tis]. To analyse the code with Frama-c, run:
 
     $ tests/formal-analysis.sh
     $ tests/frama-c.sh
 
 This will have Frama-c parse, and analyse the code, then launch a GUI.
-You must have Frama-c installed.  See `frama-c.sh` for the recommended
-settings.  To run the code under the TIS interpreter, run
+You must have Frama-c installed. See `frama-c.sh` for the recommended
+settings. To run the code under the TIS interpreter, run
 
     $ tests/formal-analysis.sh
     $ tis-interpreter.sh --cc -Dvolatile= tests/formal-analysis/*.c
 
 Notes:
 
-- `tis-interpreter.sh` is part of TIS.  If it is not in your path,
+- `tis-interpreter.sh` is part of TIS. If it is not in your path,
   adjust the command accordingly.
 
 - The TIS interpreter sometimes fails to evaluate correct programs when
   they use the `volatile` keyword (which is only used as an attempt to
-  prevent dead store elimination for memory wipes).  The `-cc
-  -Dvolatile=` option works around that bug by ignoring `volatile`
+  prevent dead store elimination for memory wipes). The `-cc -Dvolatile=` option works around that bug by ignoring `volatile`
   altogether.
 
-[Frama-c]:https://frama-c.com/
-[TIS]: https://trust-in-soft.com/tis-interpreter/
+[frama-c]: https://frama-c.com/
+[tis]: https://trust-in-soft.com/tis-interpreter/
 
-
-Speed benchmark
----------------
+## Speed benchmark
 
     $ make speed
 
-This will give you an idea how fast Monocypher is on your machine.  Make
-sure you run it on the target platform if performance is a concern.  If
-Monocypher is too slow, try libsodium.  If you're not sure, you can
+This will give you an idea how fast Monocypher is on your machine. Make
+sure you run it on the target platform if performance is a concern. If
+Monocypher is too slow, try libsodium. If you're not sure, you can
 always switch later.
-
 
 Note: the speed benchmark currently requires the POSIX
 `clock_gettime()` function.
@@ -182,18 +163,16 @@ c25519, and ed25519-donna (the portable, 32-bit version):
 `make pkg-config-libhydrogen` as root if it is not.)
 
 You can also adjust the optimisation options for Monocypher, TweetNaCl,
-and c25519 (the default is `-O3 march=native`):
+and c25519 (the default is `-O3 march=native`):
 
     $ make speed           CFLAGS="-O2"
     $ make speed-tweetnacl CFLAGS="-O2"
 
-
-Customisation
--------------
+## Customisation
 
 Monocypher has optional compatibility with Ed25519. To have that, add
 `monocypher-ed25519.h` and `monocypher-ed25519.c` provided in
-`src/optional` to your project.  If you're using the makefile, define
+`src/optional` to your project. If you're using the makefile, define
 the `USE_ED25519` variable to link it to monocypher.a and monocypher.so:
 
     $ make USE_ED25519=true
@@ -207,31 +186,29 @@ Monocypher also has the `BLAKE2_NO_UNROLLING` preprocessor flag, which
 is activated by compiling monocypher.c with the `-DBLAKE2_NO_UNROLLING`
 option.
 
-The `-DBLAKE2_NO_UNROLLING` option is a performance tweak.  By default,
+The `-DBLAKE2_NO_UNROLLING` option is a performance tweak. By default,
 Monocypher unrolls the BLAKE2b inner loop, because doing so is over 25%
-faster on modern processors.  Some embedded processors however, run the
+faster on modern processors. Some embedded processors however, run the
 unrolled loop _slower_ (possibly because of the cost of fetching 5KB of
-additional code).  If you're using an embedded platform, try this
-option.  The binary will be about 5KB smaller, and in some cases faster.
+additional code). If you're using an embedded platform, try this
+option. The binary will be about 5KB smaller, and in some cases faster.
 
 The `change-prefix.sh` script can rename all functions by replacing
-"crypto_" by a chosen prefix, so you can avoid name clashes. For
-instance, the following command changes all instances of "crypto_" by
-"foobar_" (note the absence of the underscore):
+"crypto*" by a chosen prefix, so you can avoid name clashes. For
+instance, the following command changes all instances of "crypto*" by
+"foobar\_" (note the absence of the underscore):
 
     ./change-prefix.sh foobar
 
+## Contributor notes
 
-Contributor notes
------------------
-
-If you are reading this, you cloned the GitHub repository.  You miss a
+If you are reading this, you cloned the GitHub repository. You miss a
 couple files that ship with the tarball releases:
 
-- The `tests/vectors.h` header.  Generating it requires libsodium. Go
+- The `tests/vectors.h` header. Generating it requires libsodium. Go
   to `tests/gen/`, then run `make`.
 - The html version of the manual, generated by the `doc/man2html.sh`
-  script.  You will need mandoc.
+  script. You will need mandoc.
 
 To generate a tarball, simply type `make dist`. It will make a tarball
 with a name that matches the current version (using `git describe`), in
