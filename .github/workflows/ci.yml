@@ -54,7 +54,9 @@ jobs:
         run: |
           pushd tests
           mkdir -p build && cd build
-          cmake .. && make clean && make -j8 && ctest -j8
+          cmake .. 
+          make -j8
+          ctest -j8
           popd
 
       - name: Run tests
