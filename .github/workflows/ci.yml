@@ -41,19 +41,8 @@ jobs:
         run: sudo apt-get install -y clang llvm
 
       - name: Install valgrind
-        run: | 
-          # sudo apt-get install -y valgrind
-          #mkdir -p valgrind && pushd valgrind
-          #wget https://sourceware.org/pub/valgrind/valgrind-3.15.0.tar.bz2
-          #tar xvf valgrind-3.15.0.tar.bz2
-          #cd valgrind-3.15.0
-          #./configure
-          #make
-          #sudo make install
-          #popd
-          brew install valgrind
-          sudo apt-get install -y libc6-dbg
-
+        run: |
+          sudo apt-get install -y valgrind
 
       - name: Make test vectors
         run: |
