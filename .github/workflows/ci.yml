@@ -38,7 +38,7 @@ jobs:
         run: sudo apt-get install -y libsodium-dev
 
       - name: Install clang and llvm
-        run: sudo apt-get install -y clang llvm
+        run: sudo apt-get install -y clang llvm cmake
 
       - name: Install valgrind
         run: |
@@ -48,6 +48,13 @@ jobs:
         run: |
           pushd tests/gen
           make clean && make
+          popd
+
+      - name: Build and run with cmake & ctest
+        run: |
+          pushd tests
+          mkdir -p build && cd build
+          cmake .. && make clean && make -j8 && ctest -j8
           popd
 
       - name: Run tests
