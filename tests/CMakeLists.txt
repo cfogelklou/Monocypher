@@ -54,18 +54,27 @@ include_directories(
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/FindSodium.cmake)
 
-
+# Standard Monocypher Test
 add_executable(test-test ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/test.c)
 add_test(test-test test-test)
+
+# Legacy Monocypher Test
 add_executable(test-legacy ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/test-legacy.c)
 add_test(test-legacy test-legacy)
+
+# TIS CI Test
 add_executable(test-tis-ci ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/tis-ci.c)
 add_test(test-tis-ci test-tis-ci)
+
+# CT Grind Test
 add_executable(test-ctgrind ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/ctgrind.c)
 add_test(test-ctgrind test-ctgrind)
+
+# Speed Test
 add_executable(test-speed ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed.c)
 add_test(test-speed test-speed)
 
+# Tweet NACL
 add_executable(
     test-tweetnacl 
     ${TEST_SRC}
@@ -75,10 +84,12 @@ add_executable(
 target_link_libraries(test-tweetnacl sodium)
 add_test(test-tweetnacl test-tweetnacl)
 
+# Sodium
 add_executable(test-sodium ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed-sodium.c)
 target_link_libraries(test-sodium sodium)
 add_test(test-sodium test-sodium)
 
+# C25519
 add_executable(test-c25519 
     ${TEST_SRC} 
     ${C25519_SRC}
@@ -86,12 +97,12 @@ add_executable(test-c25519
 target_include_directories(test-c25519 PUBLIC ${MC_TOP_DIR}/tests/externals/c25519)
 add_test(test-c25519 test-c25519)
 
+# ED25519 Donna
 add_definitions("-DUSE_MONOCYPHER
     -DED25519_CUSTOMHASH
     -DED25519_TEST
     -DED25519_NO_INLINE_ASM
     -DED25519_FORCE_32BIT")
-
 add_executable(test-donna 
     ${TEST_SRC} 
     ${ED25519_DONNA_SRC}
