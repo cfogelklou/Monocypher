@@ -31,7 +31,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Ubuntu apt-get update
+      - name: (ubuntu) apt-get update
         if: (matrix.platform == 'ubuntu-latest')
         run: sudo apt-get update
 
@@ -39,11 +39,7 @@ jobs:
         if: (matrix.platform == 'ubuntu-latest')
         run: sudo apt-get install -y libsodium-dev
 
-      - name: (macos) Install libsodium
-        if: (matrix.platform == 'macos-latest')
-        run: brew install libsodium
-
-      - name: Install clang and llvm
+      - name: (ubuntu) Install clang and llvm
         if: (matrix.platform == 'ubuntu-latest')
         run: sudo apt-get install -y clang llvm cmake
 
@@ -60,7 +56,8 @@ jobs:
         run: |
           make clean && make speed
 
-      - name: Run code coverage tests
+      - name: (ubuntu) Run code coverage tests
+        if: (matrix.platform == 'ubuntu-latest')
         run: |
           ./tests/coverage.sh
 
