@@ -61,14 +61,19 @@ jobs:
         run: |
           ./tests/coverage.sh
 
-      - name: Run tests with clang sanitizers
+      - name: Run tests with clang sanitizers I
         run: |
           set -e
           make clean;  make test; make test-legacy
           make clean;  make test CFLAGS="-DBLAKE2_NO_UNROLLING -O3"
           make clean;  make test CC="clang -std=c99" CFLAGS="-g -fsanitize=address"
-          make clean;  make test CC="clang -std=c99" CFLAGS="-g -fsanitize=memory"
           make clean;  make test CC="clang -std=c99" CFLAGS="-g -fsanitize=undefined"
+
+      - name: (ubuntu) Run tests with clang sanitizers II
+        if: (matrix.platform == 'ubuntu-latest')
+        run: |
+          set -e
+          make clean;  make test CC="clang -std=c99" CFLAGS="-g -fsanitize=memory"
 
       - name: Build with cmake
         run: |
