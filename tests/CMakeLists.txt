@@ -6,7 +6,7 @@ set(MC_TOP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 include( ${MC_TOP_DIR}/LibraryFiles.cmake )
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=c99 -fPIC")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=c99 -fPIC -O3")
 
 file(GLOB LOCAL_SRC
 

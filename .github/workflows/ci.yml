@@ -64,6 +64,6 @@ jobs:
       # should be found and fixed.
       - name: Run tests with clang sanitizers and valgrind (Fails!)
         run: |
-          set +e
+          #set +e
           ./tests/test.sh
-          set -e
+          #set -e
