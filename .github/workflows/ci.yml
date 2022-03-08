@@ -40,10 +40,6 @@ jobs:
       - name: Install clang and llvm
         run: sudo apt-get install -y clang llvm cmake
 
-      - name: Install valgrind
-        run: |
-          sudo apt-get install -y valgrind
-
       - name: Make test vectors
         run: |
           pushd tests/gen
@@ -70,13 +66,24 @@ jobs:
           make clean;  make test CC="clang -std=c99" CFLAGS="-g -fsanitize=memory"
           make clean;  make test CC="clang -std=c99" CFLAGS="-g -fsanitize=undefined"
 
-      - name: Build with cmake, then run valgrind
+      - name: Build with cmake
         run: |
           pushd tests
           mkdir -p build && cd build
           cmake .. 
           make -j8
           ctest -j8
+          popd
+
+      - name: (ubuntu) Install valgrind
+        if: (matrix.platform == 'ubuntu-latest')
+        run: |
+          sudo apt-get install -y valgrind
+
+      - name: (ubuntu) Build with cmake, then run valgrind
+        if: (matrix.platform == 'ubuntu-latest')
+        run: |
+          pushd tests
           valgrind ./test-test
           valgrind ./test-legacy
           valgrind ./test-ctgrind
