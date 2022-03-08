@@ -50,15 +50,6 @@ jobs:
           make clean && make
           popd
 
-      - name: Build and run with cmake & ctest
-        run: |
-          pushd tests
-          mkdir -p build && cd build
-          cmake .. 
-          make -j8
-          ctest -j8
-          popd
-
       - name: Run tests
         run: make clean && make test
 
@@ -70,10 +61,24 @@ jobs:
         run: |
           ./tests/coverage.sh
 
-      # This test fails with a crash. The set +e handles this for now, but the source of the crash
-      # should be found and fixed.
-      - name: Run tests with clang sanitizers and valgrind (Fails!)
+      - name: Run tests with clang sanitizers
         run: |
-          #set +e
-          ./tests/test.sh
-          #set -e
+          set -e
+          make clean;  make test; make test-legacy
+          make clean;  make test CFLAGS="-DBLAKE2_NO_UNROLLING -O3"
+          make clean;  make test CC="clang -std=c99" CFLAGS="-g -fsanitize=address"
+          make clean;  make test CC="clang -std=c99" CFLAGS="-g -fsanitize=memory"
+          make clean;  make test CC="clang -std=c99" CFLAGS="-g -fsanitize=undefined"
+
+      - name: Build with cmake, then run valgrind
+        run: |
+          pushd tests
+          mkdir -p build && cd build
+          cmake .. 
+          make -j8
+          ctest -j8
+          valgrind ./test-test
+          valgrind ./test-legacy
+          valgrind ./test-ctgrind
+          valgrind ./test-tis-ci
+          popd
