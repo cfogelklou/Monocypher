@@ -40,7 +40,9 @@ jobs:
         run: sudo apt-get install -y clang llvm
 
       - name: Install valgrind
-        run: sudo apt-get install -y valgrind
+        run: | 
+          brew install valgrind
+          sudo apt-get install -y libc6-dbg
 
       - name: Make test vectors
         run: |
@@ -62,7 +64,4 @@ jobs:
       # This test fails with a crash. The set +e handles this for now, but the source of the crash
       # should be found and fixed.
       - name: Run tests with clang sanitizers and valgrind (Fails!)
-        run: |
-          set +e
-          ./tests/test.sh
-          set -e
+        run: ./tests/test.sh
