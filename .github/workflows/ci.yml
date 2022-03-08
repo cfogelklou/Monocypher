@@ -32,12 +32,19 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Ubuntu apt-get update
+        if: (matrix.platform == 'ubuntu-latest')
         run: sudo apt-get update
 
-      - name: Install libsodium
+      - name: (ubuntu) Install libsodium
+        if: (matrix.platform == 'ubuntu-latest')
         run: sudo apt-get install -y libsodium-dev
 
+      - name: (macos) Install libsodium
+        if: (matrix.platform == 'macos-latest')
+        run: brew install libsodium
+
       - name: Install clang and llvm
+        if: (matrix.platform == 'ubuntu-latest')
         run: sudo apt-get install -y clang llvm cmake
 
       - name: Make test vectors
