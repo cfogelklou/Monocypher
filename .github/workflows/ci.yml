@@ -61,7 +61,5 @@ jobs:
         run: |
           ./tests/coverage.sh
 
-      # This test fails with a crash. The set +e handles this for now, but the source of the crash
-      # should be found and fixed.
       - name: Run tests with clang sanitizers and valgrind (Fails!)
         run: ./tests/test.sh
