@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(MC_TOP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../)
 set(MC_COMMON_SRC ${MC_TOP_DIR}/src)
 
-
-
 # USE recursive search to add all libsodium files.
 file(GLOB_RECURSE MONOCYPHER_REC_SRC
   ${MC_COMMON_SRC}/*.c
@@ -17,7 +15,7 @@ set(MONOCYPHER_SRC
 )
 
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=c99 -fPIC -O3 -Wall")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=c99 -fPIC -O1 -Wall")
 
 file(GLOB TWEETNACL_SRC
   ${MC_TOP_DIR}/tests/externals/tweetnacl/*.c
@@ -93,16 +91,10 @@ add_executable(test-c25519
 target_include_directories(test-c25519 PUBLIC ${MC_TOP_DIR}/tests/externals/c25519)
 add_test(test-c25519 test-c25519)
 
-
-if (LINUX)
-else (LINUX)
 # Speed Test
 add_executable(test-speed ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed.c)
 add_test(test-speed test-speed)
-endif (LINUX)
 
-if (LINUX)
-else (LINUX)
 # ED25519 Donna
 add_definitions("-DUSE_MONOCYPHER
     -DED25519_CUSTOMHASH
@@ -117,7 +109,6 @@ target_include_directories(test-donna PUBLIC
     ${MC_TOP_DIR}/tests/externals/ed25519-donna
 )
 add_test(test-donna test-donna)
-endif (LINUX)
 
 
 enable_testing()
