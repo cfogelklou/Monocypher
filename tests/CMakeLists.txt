@@ -17,7 +17,7 @@ set(MONOCYPHER_SRC
 )
 
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=c99 -fPIC -O3")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=c99 -fPIC -O3 -Wall")
 
 file(GLOB TWEETNACL_SRC
   ${MC_TOP_DIR}/tests/externals/tweetnacl/*.c
