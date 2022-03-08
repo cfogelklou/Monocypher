@@ -13,13 +13,19 @@ file(GLOB TWEETNACL_SRC
   ${MC_TOP_DIR}/tests/externals/tweetnacl/*.h
 )
 
-file(GLOB LOCAL_SRC
+file(GLOB C25519_SRC
+  ${MC_TOP_DIR}/tests/externals/c25519/*.c
+  ${MC_TOP_DIR}/tests/externals/c25519/*.h
+)
 
-    #${CMAKE_CURRENT_SOURCE_DIR}/test.c
-    #${CMAKE_CURRENT_SOURCE_DIR}/test-legacy.c
+file(GLOB ED25519_DONNA_SRC
+  ${MC_TOP_DIR}/tests/externals/ed25519-donna/*.c
+  ${MC_TOP_DIR}/tests/externals/ed25519-donna/*.h
+)
+
+file(GLOB LOCAL_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/utils.c
     ${CMAKE_CURRENT_SOURCE_DIR}/*.h
-
 )
 
 set(TEST_SRC
@@ -55,7 +61,23 @@ add_executable(
 target_link_libraries(test-tweetnacl sodium)
 add_executable(test-sodium ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed-sodium.c)
 target_link_libraries(test-sodium sodium)
-#find_package(sodium REQUIRED)
+
+add_executable(test-c25519 
+    ${TEST_SRC} 
+    ${C25519_SRC}
+    ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed-c25519.c)
+
+target_include_directories(test-c25519 PUBLIC ${MC_TOP_DIR}/tests/externals/c25519)
+
+add_executable(test-donna 
+    ${TEST_SRC} 
+    ${ED25519_DONNA_SRC}
+    ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed-donna.c)
+
+target_include_directories(test-donna PUBLIC
+    ${MC_TOP_DIR}/tests/externals/ed25519-donna
+)
+
 
 enable_testing()
 add_test(${PROJECT_NAME} ${PROJECT_NAME})
