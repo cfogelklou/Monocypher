@@ -84,7 +84,7 @@ jobs:
         if: (matrix.platform == 'ubuntu-latest')
         run: |
           set -e
-          pushd tests
+          pushd tests/build
           valgrind ./test-test
           valgrind ./test-legacy
           valgrind ./test-ctgrind
