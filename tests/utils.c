@@ -141,7 +141,6 @@ static int to_num(char c)
 static vector vector_of_string(const char *s)
 {
     vector v;
-    printf("vector_of_string(%s)\r\n", s);
     v.size = strlen(s) / 2;
     v.buf  = v.size == 0 ? 0 : (u8*)alloc(v.size);
     FOR (i, 0, v.size) {
