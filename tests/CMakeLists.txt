@@ -70,10 +70,6 @@ add_test(test-tis-ci test-tis-ci)
 add_executable(test-ctgrind ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/ctgrind.c)
 add_test(test-ctgrind test-ctgrind)
 
-# Speed Test
-add_executable(test-speed ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed.c)
-add_test(test-speed test-speed)
-
 # Tweet NACL
 add_executable(
     test-tweetnacl 
@@ -97,6 +93,16 @@ add_executable(test-c25519
 target_include_directories(test-c25519 PUBLIC ${MC_TOP_DIR}/tests/externals/c25519)
 add_test(test-c25519 test-c25519)
 
+
+if (LINUX)
+else (LINUX)
+# Speed Test
+add_executable(test-speed ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed.c)
+add_test(test-speed test-speed)
+endif (LINUX)
+
+if (LINUX)
+else (LINUX)
 # ED25519 Donna
 add_definitions("-DUSE_MONOCYPHER
     -DED25519_CUSTOMHASH
@@ -111,6 +117,7 @@ target_include_directories(test-donna PUBLIC
     ${MC_TOP_DIR}/tests/externals/ed25519-donna
 )
 add_test(test-donna test-donna)
+endif (LINUX)
 
 
 enable_testing()
