@@ -80,9 +80,10 @@ jobs:
         run: |
           sudo apt-get install -y valgrind
 
-      - name: (ubuntu) Build with cmake, then run valgrind
+      - name: (ubuntu) Run valgrind
         if: (matrix.platform == 'ubuntu-latest')
         run: |
+          set -e
           pushd tests
           valgrind ./test-test
           valgrind ./test-legacy
