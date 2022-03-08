@@ -5,11 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(MC_TOP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../)
 set(MC_COMMON_SRC ${MC_TOP_DIR}/src)
 
-add_definitions("-DUSE_MONOCYPHER
-    -DED25519_CUSTOMHASH
-    -DED25519_TEST
-    -DED25519_NO_INLINE_ASM
-    -DED25519_FORCE_32BIT")
+
 
 # USE recursive search to add all libsodium files.
 file(GLOB_RECURSE MONOCYPHER_REC_SRC
@@ -89,6 +85,12 @@ add_executable(test-c25519
     ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed-c25519.c)
 target_include_directories(test-c25519 PUBLIC ${MC_TOP_DIR}/tests/externals/c25519)
 add_test(test-c25519 test-c25519)
+
+add_definitions("-DUSE_MONOCYPHER
+    -DED25519_CUSTOMHASH
+    -DED25519_TEST
+    -DED25519_NO_INLINE_ASM
+    -DED25519_FORCE_32BIT")
 
 add_executable(test-donna 
     ${TEST_SRC} 
