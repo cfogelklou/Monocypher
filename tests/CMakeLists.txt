@@ -14,6 +14,7 @@ set(MONOCYPHER_SRC
     ${MONOCYPHER_REC_SRC}
 )
 
+
 if (CMAKE_C_COMPILER_ID STREQUAL "GNU"
     OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
     set(_GCC_COMPATIBLE 1)
@@ -63,7 +64,6 @@ include_directories(
     ${MC_COMMON_SRC}/optional
     ${MC_TOP_DIR}/tests
     ${MC_TOP_DIR}/tests/externals/tweetnacl
-    ${MC_TOP_DIR}/tests/externals/libsodium/include
 )
 
 if (NOT DEFINED WIN32)
@@ -93,15 +93,12 @@ add_executable(
     ${TWEETNACL_SRC} 
     ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed-tweetnacl.c
     )
-if (NOT DEFINED WIN32)
-target_link_libraries(test-tweetnacl sodium)
-endif()
 add_test(test-tweetnacl test-tweetnacl)
 
 # Sodium
 if (NOT DEFINED WIN32)
 add_executable(test-sodium ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed-sodium.c)
-target_link_libraries(test-tweetnacl sodium)
+target_link_libraries(test-sodium sodium)
 add_test(test-sodium test-sodium)
 endif()
 
