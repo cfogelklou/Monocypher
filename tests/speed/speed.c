@@ -202,8 +202,9 @@ static u64 x25519_sp_small(void)
     TIMING_END;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+    (void)argc; (void)argv;
     print("Chacha20            ",chacha20()     *MUL ,"megabytes  per second");
     print("Poly1305            ",poly1305()     *MUL ,"megabytes  per second");
     print("Auth'd encryption   ",authenticated()*MUL ,"megabytes  per second");

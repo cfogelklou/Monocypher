@@ -113,8 +113,9 @@ static u64 edDSA_check(void)
     TIMING_END;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+    (void)argc; (void)argv;
     print("x25519      ", x25519()     , "exchanges  per second");
     print("EdDSA(sign) ", edDSA_sign() , "signatures per second");
     print("EdDSA(check)", edDSA_check(), "checks     per second");
