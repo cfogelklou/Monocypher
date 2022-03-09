@@ -49,6 +49,9 @@
 // with this software.  If not, see
 // <https://creativecommons.org/publicdomain/zero/1.0/>
 
+#ifndef SPEED_H__
+#define SPEED_H__
+
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,12 +67,21 @@ typedef struct timespec timespec;
 #define MUL      (MEGABYTE / SIZE)
 #define BILLION  1000000000
 
+#ifdef CLOCK_PROCESS_CPUTIME_ID
 // Difference in nanoseconds
 static u64 diff(timespec start, timespec end)
 {
     return (u64)((end.tv_sec  - start.tv_sec ) * BILLION +
                  (end.tv_nsec - start.tv_nsec));
 }
+#else
+// Difference in nanoseconds
+static u64 diff(clock_t start, clock_t end)
+{
+    return (u64)(end - start) * 10000000ULL / CLOCKS_PER_SEC;
+}
+
+#endif
 
 static u64 min(u64 a, u64 b)
 {
@@ -86,6 +98,7 @@ static void print(const char *name, u64 duration, const char *unit)
     }
 }
 
+#ifdef CLOCK_PROCESS_CPUTIME_ID
 // Note: not all systems will work well with CLOCK_PROCESS_CPUTIME_ID.
 // If you get weird timings on your system, you may want to replace it
 // with another clock id.  Perhaps even replace clock_gettime().
@@ -103,3 +116,22 @@ static void print(const char *name, u64 duration, const char *unit)
     duration = min(duration, diff(start, end)); \
     } /* end FOR*/                              \
     return duration
+
+#else
+#define TIMESTAMP(t)                            \
+    clock_t t;                                  \
+    t = clock();
+
+#define TIMING_START                            \
+    u64 duration = (u64)-1;                     \
+    FOR (i, 0, 500) {                           \
+        TIMESTAMP(start);
+
+#define TIMING_END                              \
+    TIMESTAMP(end);                             \
+    duration = min(duration, diff(start, end)); \
+    } /* end FOR*/                              \
+    return duration
+#endif
+
+#endif
