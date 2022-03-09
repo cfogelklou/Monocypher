@@ -93,13 +93,14 @@ add_executable(
     ${TWEETNACL_SRC} 
     ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed-tweetnacl.c
     )
-# target_link_libraries(test-tweetnacl sodium)
 add_test(test-tweetnacl test-tweetnacl)
 
 # Sodium
+if (NOT DEFINED WIN32)
 add_executable(test-sodium ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed-sodium.c)
 target_link_libraries(test-sodium sodium)
 add_test(test-sodium test-sodium)
+endif()
 
 # C25519
 add_executable(test-c25519 
