@@ -21,14 +21,10 @@ if (CMAKE_C_COMPILER_ID STREQUAL "GNU"
 endif()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-  # using Clang
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  # using GCC
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
-  # using Intel C++
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-  # using Visual Studio C++
 endif()
 
 if(_GCC_COMPATIBLE)
@@ -70,7 +66,9 @@ include_directories(
     ${MC_TOP_DIR}/tests/externals/tweetnacl
 )
 
+if (NOT DEFINED WIN32)
 include(${CMAKE_CURRENT_SOURCE_DIR}/FindSodium.cmake)
+endif()
 
 # Standard Monocypher Test
 add_executable(test-test ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/test.c)
