@@ -49,11 +49,16 @@
 // with this software.  If not, see
 // <https://creativecommons.org/publicdomain/zero/1.0/>
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef UTILS_H__
+#define UTILS_H__
 
 #include <inttypes.h>
 #include <stddef.h>
+
+
+#ifdef u64
+#undef u64
+#endif
 
 typedef int8_t   i8;
 typedef uint8_t  u8;
@@ -102,4 +107,4 @@ vector next_output(vector_reader *vectors);
 int vector_test(void (*f)(vector_reader*),
                 const char *name, size_t nb_vectors, const char *vectors[]);
 
-#endif // UTILS_H
+#endif // UTILS_H__

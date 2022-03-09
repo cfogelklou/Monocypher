@@ -67,6 +67,25 @@ typedef struct timespec timespec;
 #define MUL      (MEGABYTE / SIZE)
 #define BILLION  1000000000
 
+static void print(const char* name, u64 duration, const char* unit)
+{
+  if (duration == 0) {
+    printf("%s: too fast to be measured\n", name);
+  }
+  else {
+    u64 speed_hz = BILLION / duration;
+    printf("%s: %5" PRIu64 " %s\n", name, speed_hz, unit);
+  }
+}
+
+
+#ifndef WIN32
+
+static u64 min(u64 a, u64 b)
+{
+  return a < b ? a : b;
+}
+
 #ifdef CLOCK_PROCESS_CPUTIME_ID
 // Difference in nanoseconds
 static u64 diff(timespec start, timespec end)
@@ -83,20 +102,7 @@ static u64 diff(clock_t start, clock_t end)
 
 #endif
 
-static u64 min(u64 a, u64 b)
-{
-    return a < b ? a : b;
-}
 
-static void print(const char *name, u64 duration, const char *unit)
-{
-    if (duration == 0) {
-        printf("%s: too fast to be measured\n", name);
-    } else {
-        u64 speed_hz = BILLION / duration;
-        printf("%s: %5" PRIu64 " %s\n", name, speed_hz, unit);
-    }
-}
 
 #ifdef CLOCK_PROCESS_CPUTIME_ID
 // Note: not all systems will work well with CLOCK_PROCESS_CPUTIME_ID.
@@ -133,5 +139,15 @@ static void print(const char *name, u64 duration, const char *unit)
     } /* end FOR*/                              \
     return duration
 #endif
+
+#else // WIN32
+
+#define TIMESTAMP(t) do {} while(0)
+
+#define TIMING_START if(1){
+
+#define TIMING_END } return 0
+
+#endif // WIN32
 
 #endif

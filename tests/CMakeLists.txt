@@ -48,6 +48,7 @@ file(GLOB ED25519_DONNA_SRC
 file(GLOB LOCAL_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/utils.c
     ${CMAKE_CURRENT_SOURCE_DIR}/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/speed/*.h
 )
 
 set(TEST_SRC
@@ -92,13 +93,15 @@ add_executable(
     ${TWEETNACL_SRC} 
     ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed-tweetnacl.c
     )
+if (NOT DEFINED WIN32)
 target_link_libraries(test-tweetnacl sodium)
+endif()
 add_test(test-tweetnacl test-tweetnacl)
 
-if (NOT DEFINED WIN32)
 # Sodium
+if (NOT DEFINED WIN32)
 add_executable(test-sodium ${TEST_SRC} ${CMAKE_CURRENT_SOURCE_DIR}/speed/speed-sodium.c)
-target_link_libraries(test-sodium sodium)
+target_link_libraries(test-tweetnacl sodium)
 add_test(test-sodium test-sodium)
 endif()
 
