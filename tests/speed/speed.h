@@ -141,12 +141,13 @@ static u64 diff(clock_t start, clock_t end)
 #endif
 
 #else // WIN32
-
+// TODO: Add timestamp support for windows.
 #define TIMESTAMP(t) do {} while(0)
 
-#define TIMING_START if(1){
+#define TIMING_START FOR (i, 0, 500) {
 
-#define TIMING_END } return 0
+#define TIMING_END }                            \
+        return 0
 
 #endif // WIN32
 
