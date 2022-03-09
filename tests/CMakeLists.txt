@@ -15,7 +15,10 @@ set(MONOCYPHER_SRC
 )
 
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=c99 -fPIC -O2 -Wall")
+if (CMAKE_C_COMPILER_ID STREQUAL "GNU"
+    OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
+    set(_GCC_COMPATIBLE 1)
+endif()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   # using Clang
@@ -26,6 +29,10 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
   # using Intel C++
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   # using Visual Studio C++
+endif()
+
+if(_GCC_COMPATIBLE)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=c99 -fPIC -O2 -Wall")
 endif()
 
 file(GLOB TWEETNACL_SRC
@@ -46,12 +53,14 @@ file(GLOB ED25519_DONNA_SRC
 file(GLOB LOCAL_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/utils.c
     ${CMAKE_CURRENT_SOURCE_DIR}/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/speed/*.h
 )
 
 set(TEST_SRC
     ${EXTERNALS_SRC}
     ${LOCAL_SRC}
     ${MONOCYPHER_SRC}
+	${MC_TOP_DIR}/tests/CMakeLists.txt
 )
 
 include_directories(
