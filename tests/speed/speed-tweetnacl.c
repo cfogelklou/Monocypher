@@ -155,8 +155,9 @@ static u64 edDSA_check(void)
     TIMING_END;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+    (void)argc; (void)argv;
     print("Salsa20          ",salsa20()      *MUL,"megabytes  per second");
     print("Poly1305         ",poly1305()     *MUL,"megabytes  per second");
     print("Auth'd encryption",authenticated()*MUL,"megabytes  per second");

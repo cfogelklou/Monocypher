@@ -19,11 +19,11 @@ on:
   status: {}
 jobs:
   # Build and run tests. Note that the valgrind tests crash.
-  build-and-test:
+  build-and-test-posix:
     name: Build monocypher and run unit tests
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-latest] # windows-latest could also be here, but not free for Open Source
+        platform: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.platform }}
 
     steps:
@@ -97,4 +97,38 @@ jobs:
           valgrind ./test-legacy
           valgrind ./test-ctgrind
           valgrind ./test-tis-ci
+          popd
+
+  # Build and run tests. Note that the valgrind tests crash.
+  build-and-test-windows:
+    name: Build monocypher and run unit tests
+    strategy:
+      matrix:
+        platform: [windows-latest] # windows-latest could also be here, but not free for Open Source
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Add msbuild to PATH (windows).
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Create makefile with cmake.
+        run: |
+          pushd tests
+          mkdir -p build && cd build
+          cmake .. 
+          popd
+
+      - name: Build with msbuild
+        run: |
+          pushd tests/build
+          msbuild test_monocypher.sln /property:Configuration=Debug -maxcpucount:4
+          popd
+
+      - name: Test with ctest
+        run: |
+          pushd tests/build
+          ctest -j4
           popd

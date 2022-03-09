@@ -194,7 +194,7 @@ static void curve_to_hidden()
 {
     u8 hidden[32];
     u8 curve [32];
-    u8 tweak; // The compiler notices this one is used uninitialised
+    u8 tweak = 0;
     crypto_curve_to_hidden(hidden, curve, tweak);
 }
 
@@ -277,8 +277,9 @@ static void x25519_inverse()
 
 #define RUN(f, s) printf("%s: crypto_"#f"\n", s); f()
 
-int main()
+int main(int argc, char* argv[])
 {
+    (void)argc; (void)argv;
     RUN(verify16          , "constant time");
     RUN(verify32          , "constant time");
     RUN(verify64          , "constant time");
